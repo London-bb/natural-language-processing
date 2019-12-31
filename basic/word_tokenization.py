@@ -6,7 +6,6 @@ from nltk.tokenize import word_tokenize
 from nltk.tokenize import WordPunctTokenizer
 from nltk.tokenize import TreebankWordTokenizer
 
-
 tb_tokenizer=TreebankWordTokenizer()
 
 text1 = "Love looks not with the eyes, but with the mind. And therefore is wing'd Cupid painted blind."
