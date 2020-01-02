@@ -7,6 +7,7 @@ hannanum = Hannanum()
 kkma = Kkma()
 okt = Okt()
 
+#예시를 위해 영문장, 한문장을 임의로 설정합니다.
 text1 = "I am graduate Yonsei university. My major is Bio Medical engineering. but my favorite is Machine learning&Data Science."
 text2 = "자연어 처리 어렵네요. 특히 한국어 처리는 더 어려운거 같아요. 다들 화이팅하세요!"
 
@@ -25,7 +26,6 @@ print(kkma.morphs(text2))
 print("Okt를 사용하면 아래와 같이 분류됩니다.")
 print(okt.morphs(text1))
 print(okt.morphs(text2))
-
 
 #jpype._jvmfinder.JVMNotFoundException: No JVM shared library file (jng>vm.dll) found. Try setting up the JAVA_HOME environment variable properly.
 #라는 오류가 발생하신다면 C:\아나콘다설치위치\Lib\site-packages\jpype 에 들어가서 _jvmfinder.py 파일을 여신 다음 ctrl + F 로 java_home 검색 후
