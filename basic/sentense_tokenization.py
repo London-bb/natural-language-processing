@@ -8,7 +8,7 @@ kkma = Kkma()
 okt = Okt()
 
 text1 = "I am graduate Yonsei university. My major is Bio Medical engineering. but my favorite is Machine learning&Data Science."
-text2 = "자연어 처리 어렵네요. 특히 한국어 처리는 더 어려운거 같아요. 다들 화아팅하세요!"
+text2 = "자연어 처리 어렵네요. 특히 한국어 처리는 더 어려운거 같아요. 다들 화이팅하세요!"
 
 print("sent_tokenize를 사용하면 아래와 같이 토큰화됩니다.")
 print(sent_tokenize(text1))
