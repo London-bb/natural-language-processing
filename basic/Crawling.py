@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as bs
 import sys
 import urllib.request
 from urllib.parse import quote
+import re
 
 def get_URL(keyword):
     url_page_source = "http://mksports.co.kr/search/?page="
@@ -36,13 +37,30 @@ def get_text(URL, output_file):
     source_code_from_URL = urllib.request.urlopen(URL)
     soup = bs(source_code_from_URL, 'lxml', from_encoding='utf-8')
     #기사 내용이 <div class=read_txt>에 저장되어 있으므로 read_txt class전체를 content에 저장
-    content = soup.select('div.read_txt')
-    for text in content :
+    txt_content = soup.select('div.read_txt')
+    img_content = soup.select('div.img_center')
+    for text in txt_content :
         #content안에서 text형식인 모든 자료를 꺼내와 str_item에 저장
-        str_item = str(text.find_all(text=True))
-        print(type(text))
-        output_file.write(str_item)
+        text_str = str(text.find_all(text=True))
+        final_text = cleansing(text_str)
+        output_file.write(final_text)
 
+#text는 str data
+def cleansing(text):
+    #cleansing 이전 데이터를 ',' 를 기준으로 잘라 리스트로 만들어준다
+    text_str2list = text.split(',')
+
+    #html과 txt를 확인한 결과 본문 구조는 " ~(adsbygoogle = window.adsbygoogle || []).push({});\\n" + 기자 정보로 시작한다(모든 기사 공통)
+    #태그와 기자정보 index는 변하지 않는다. 광고의 시작은 " ' r_start //'" 이다
+    text_start = " '\\n (adsbygoogle = window.adsbygoogle || []).push({});\\n '" #태그정보
+    ad_start =  " ' r_start //'"
+    start_point = text_str2list.index(text_start) + 2 
+    del_ad_point = text_str2list.index(ad_start)
+    text_without_ad = text_str2list[int(start_point):int(del_ad_point)]
+    #본문 내에서 특수문자 또는 잉여 태그를 제거한다.
+    text_without_html = re.sub('<.+?>', '', str(text_without_ad), 0).strip()
+    cleansing_txt = re.sub('[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>\#$%&\\\=\(\'\"]','', text_without_html)
+    return cleansing_txt
 
 page_num = input('크롤링할 페이지 수를 입력해주세요.')
 keyword = input('검색어를 입력해주세요.')
